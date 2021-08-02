@@ -1,16 +1,28 @@
 # adress_book
 
-A new Flutter project.
+A Flutter project on google map.
 
-## Getting Started
+As my API is not paid so google place API is not working currently but yet i haev implemented to pick up the place from the search bar.
+i have used google_place package. yet i have also implemented som other methods.
+saving those other methods here to use future.
 
-This project is a starting point for a Flutter application.
+Future<List<PlaceSearch>> getAutoCompleteResult(String searchValue) async{
 
-A few resources to get you started if this is your first Flutter project:
+    String url = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$searchValue&types=(cities)&language=pt_BR&key=$apiKey';
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+    var response = await http.get(Uri.parse(url));
+    var json = convert.jsonDecode(response.body);
+    var jsonResults = json['prediction'] as List;
+    return jsonResults.map((place) => PlaceSearch.fromJson(place)).toList();
+  }
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+  Future<SelectedLocation> getPlace(String placeId) async{
+
+    String url = 'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$apiKey';
+
+    var response = await http.get(Uri.parse(url));
+    var json = convert.jsonDecode(response.body);
+    var jsonResults = json['result']['geometry']['location'];
+    return jsonResults.map((place) => PlaceSearch.fromJson(place)).toList();
+  }
+
