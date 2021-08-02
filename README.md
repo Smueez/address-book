@@ -4,7 +4,7 @@ A Flutter project on google map.
 
 As my API is not paid so google place API is not working currently but yet i haev implemented to pick up the place from the search bar.
 i have used google_place package. yet i have also implemented som other methods.
-saving those other methods here to use further.
+saving those other methods here to use future.
 
 Future<List<PlaceSearch>> getAutoCompleteResult(String searchValue) async{
 
