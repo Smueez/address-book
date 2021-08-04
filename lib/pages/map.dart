@@ -141,9 +141,14 @@ class _MapPageState extends State<MapPage> {
   }
   @override
   Widget build(BuildContext context) {
+
+    double totalScreenHeight = MediaQuery. of(context).size.height;
+    double appbarheight = global.defaultAppBar.preferredSize.height;
+    double topHeight = MediaQuery.of(context).padding.top;
     //print(data);
     return ProviderScope(
       child: Scaffold(
+        //resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: Colors.blueAccent[100],
           title: Row(
@@ -188,12 +193,9 @@ class _MapPageState extends State<MapPage> {
             ],
           ),
         ),
-        body: Stack(
-          children: [
-            ListView(
-            primary: false,
-            shrinkWrap: false,
-            physics: NeverScrollableScrollPhysics(),
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(
                 height: 400,
@@ -252,261 +254,263 @@ class _MapPageState extends State<MapPage> {
                   ),
                 ),
                ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListView(
-                  shrinkWrap: true,
-                  primary: true,
-                  physics: ClampingScrollPhysics(),
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 0.0,horizontal: 15.0),
-                      child: Text(
-                        'Name',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.grey[600]
-                        ),
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(
-                                  width: 1,
-                                  color: (Colors.blue[100])!
-                              )
-                          )
-                      ),
-                      child: TextField(
-                        controller: nameInputController,
-                        cursorColor: Colors.black,
-                        keyboardType: TextInputType.text,
-                        textInputAction: TextInputAction.go,
 
-                        style: TextStyle(
-                          fontSize: 12,
-                        ),
-                        decoration: InputDecoration(
-                            contentPadding:
-                            EdgeInsets.symmetric(horizontal: 15),
-                            hintText: "Write name here..."
-                        ),
-
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 0.0,horizontal: 15.0),
-                      child: Text(
-                        'Phone Number',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.grey[600]
-                        ),
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(
-                                  width: 1,
-                                  color: (Colors.blue[100])!
-                              )
-                          )
-                      ),
-                      child: TextField(
-                        controller: phoneInputController,
-                        cursorColor: Colors.black,
-                        keyboardType: TextInputType.phone,
-                        textInputAction: TextInputAction.go,
-                        style: TextStyle(
-                          fontSize: 12,
-                        ),
-                        decoration: InputDecoration(
-                            contentPadding:
-                            EdgeInsets.symmetric(horizontal: 15),
-                            hintText: "Phone no..."),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    SizedBox(
-                      height: 70,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 1.0,horizontal: 15.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Address: ',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.grey[600]
-                              ),
-                            ),
-                            Flexible(
-                              child: Text(
-                                '${global.placeDetails['street']}, '
-                                  '${global.placeDetails['name']}, '
-                                  '${global.placeDetails['subLocality']}',
-                                  style: TextStyle(
-                                      color: Colors.grey[600]
-                                  ),
-                                  maxLines: 5,
-                                  softWrap: false,
-                                  overflow: TextOverflow.fade,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Expanded(
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            'City: ',
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                color: Colors.grey[600]
-                                            ),
-                                          ),
-                                          Flexible(
-                                            child: Text(
-                                              global.placeDetails['city'],
-                                              style: TextStyle(
-                                                  color: Colors.grey[600]
-                                              ),
-                                              maxLines: 5,
-                                              softWrap: false,
-                                              overflow: TextOverflow.fade,
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                  ),
-                                  Expanded(
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            'Country: ',
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                color: Colors.grey[600]
-                                            ),
-                                          ),
-                                          Flexible(
-                                            child: Text(
-                                              global.placeDetails['country'],
-                                              style: TextStyle(
-                                                  color: Colors.grey[600]
-                                              ),
-                                              maxLines: 5,
-                                              softWrap: false,
-                                              overflow: TextOverflow.fade,
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                  )
-                                ],
-                              )
-                            ],
+              SizedBox(
+                height: (totalScreenHeight - (appbarheight + topHeight)) - 400,//MediaQuery. of(context).size.height - 400,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListView(
+                    shrinkWrap: true,
+                    primary: true,
+                    physics: ClampingScrollPhysics(),
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 0.0,horizontal: 15.0),
+                        child: Text(
+                          'Name',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.grey[600]
                           ),
                         ),
                       ),
-                      TextButton(
-                        onPressed: () async{
-                          if(nameInputController.text.isEmpty || phoneInputController.text.isEmpty){
-                            Fluttertoast.showToast(
-                              msg: "Please provided required information",
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.CENTER,
-                              timeInSecForIosWeb: 1,
-                            );
-                            return;
-                          }
-                          Map<dynamic,dynamic> addressInfo = {
-                            'name': nameInputController.text,
-                            'city': global.placeDetails['city'],
-                            'country': global.placeDetails['country'],
-                            'address': '${global.placeDetails['street']}, '
-                                        '${global.placeDetails['name']}, '
-                                        '${global.placeDetails['subLocality']}',
-                            'phone': phoneInputController.text.toString(),
-                            'lat': lat,
-                            'lng': lng
-                          };
-                          DatabaseClass database = new DatabaseClass();
-                          await database.insertAddress(addressInfo);
-                          Future.delayed(Duration.zero, ()
-                          {
-                            Fluttertoast.showToast(
-                                msg: "Data updated!",
+                      Container(
+                        decoration: BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(
+                                    width: 1,
+                                    color: (Colors.blue[100])!
+                                )
+                            )
+                        ),
+                        child: TextField(
+                          controller: nameInputController,
+                          cursorColor: Colors.black,
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.go,
+
+                          style: TextStyle(
+                            fontSize: 12,
+                          ),
+                          decoration: InputDecoration(
+                              contentPadding:
+                              EdgeInsets.symmetric(horizontal: 15),
+                              hintText: "Write name here..."
+                          ),
+
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 0.0,horizontal: 15.0),
+                        child: Text(
+                          'Phone Number',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.grey[600]
+                          ),
+                        ),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(
+                                    width: 1,
+                                    color: (Colors.blue[100])!
+                                )
+                            )
+                        ),
+                        child: TextField(
+                          controller: phoneInputController,
+                          cursorColor: Colors.black,
+                          keyboardType: TextInputType.phone,
+                          textInputAction: TextInputAction.go,
+                          style: TextStyle(
+                            fontSize: 12,
+                          ),
+                          decoration: InputDecoration(
+                              contentPadding:
+                              EdgeInsets.symmetric(horizontal: 15),
+                              hintText: "Phone no..."),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      SizedBox(
+                        height: 70,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 1.0,horizontal: 15.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Address: ',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.grey[600]
+                                ),
+                              ),
+                              Flexible(
+                                child: Text(
+                                  '${global.placeDetails['street']}, '
+                                    '${global.placeDetails['name']}, '
+                                    '${global.placeDetails['subLocality']}',
+                                    style: TextStyle(
+                                        color: Colors.grey[600]
+                                    ),
+                                    maxLines: 5,
+                                    softWrap: false,
+                                    overflow: TextOverflow.fade,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Expanded(
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              'City: ',
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  color: Colors.grey[600]
+                                              ),
+                                            ),
+                                            Flexible(
+                                              child: Text(
+                                                global.placeDetails['city'],
+                                                style: TextStyle(
+                                                    color: Colors.grey[600]
+                                                ),
+                                                maxLines: 5,
+                                                softWrap: false,
+                                                overflow: TextOverflow.fade,
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                    ),
+                                    Expanded(
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              'Country: ',
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  color: Colors.grey[600]
+                                              ),
+                                            ),
+                                            Flexible(
+                                              child: Text(
+                                                global.placeDetails['country'],
+                                                style: TextStyle(
+                                                    color: Colors.grey[600]
+                                                ),
+                                                maxLines: 5,
+                                                softWrap: false,
+                                                overflow: TextOverflow.fade,
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () async{
+                            if(nameInputController.text.isEmpty || phoneInputController.text.isEmpty){
+                              Fluttertoast.showToast(
+                                msg: "Please provided required information",
                                 toastLength: Toast.LENGTH_SHORT,
                                 gravity: ToastGravity.CENTER,
                                 timeInSecForIosWeb: 1,
-                            );
-                            Navigator.pushNamedAndRemoveUntil(context, '/addresslist', (r) => false);
-                          });
-                        },
-                        child: Text(
-                          'Save Address',
-                          style: TextStyle(
-                            color: Colors.white
-                          ),
-
-                        ),
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(Colors.lightGreen[300])
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-
-              ],
-            ),
-            Padding(
-                padding: EdgeInsets.symmetric(vertical: 0.0,horizontal: 10),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.6),
-                    backgroundBlendMode: BlendMode.darken,
-                  ),
-
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                      itemCount: predictionsList.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          onTap: (){
-                            currentLocationOnCenterShown = false;
-                            getPosition(predictionsList[index].placeId);
+                              );
+                              return;
+                            }
+                            Map<dynamic,dynamic> addressInfo = {
+                              'name': nameInputController.text,
+                              'city': global.placeDetails['city'],
+                              'country': global.placeDetails['country'],
+                              'address': '${global.placeDetails['street']}, '
+                                          '${global.placeDetails['name']}, '
+                                          '${global.placeDetails['subLocality']}',
+                              'phone': phoneInputController.text.toString(),
+                              'lat': lat,
+                              'lng': lng
+                            };
+                            DatabaseClass database = new DatabaseClass();
+                            await database.insertAddress(addressInfo);
+                            Future.delayed(Duration.zero, ()
+                            {
+                              Fluttertoast.showToast(
+                                  msg: "Data updated!",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.CENTER,
+                                  timeInSecForIosWeb: 1,
+                              );
+                              Navigator.pushNamedAndRemoveUntil(context, '/addresslist', (r) => false);
+                            });
                           },
-                          title: Text(
-                              predictionsList[index].description,
-                              style: TextStyle(
-                                color: Colors.white
-                              ),
+                          child: Text(
+                            'Save Address',
+                            style: TextStyle(
+                              color: Colors.white
+                            ),
+
                           ),
-                        );
-                      }
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(Colors.lightGreen[300])
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-            )
-          ],
+              ),
+              Padding(
+                  padding: EdgeInsets.symmetric(vertical: 0.0,horizontal: 10),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.6),
+                      backgroundBlendMode: BlendMode.darken,
+                    ),
+
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                        itemCount: predictionsList.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            onTap: (){
+                              currentLocationOnCenterShown = false;
+                              getPosition(predictionsList[index].placeId);
+                            },
+                            title: Text(
+                                predictionsList[index].description,
+                                style: TextStyle(
+                                  color: Colors.white
+                                ),
+                            ),
+                          );
+                        }
+                    ),
+                  ),
+              )
+            ],
+          ),
         )
       ),
     );
